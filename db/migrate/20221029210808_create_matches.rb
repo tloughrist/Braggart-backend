@@ -3,7 +3,6 @@ class CreateMatches < ActiveRecord::Migration[6.1]
     create_table :matches do |t|
       t.datetime :match_date
       t.integer :game_id
-      t.integer :winner
     end
   end
 end
