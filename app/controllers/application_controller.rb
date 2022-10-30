@@ -1,9 +1,107 @@
 class ApplicationController < Sinatra::Base
   set :default_content_type, 'application/json'
   
-  # Add your routes here
-  get "/" do
-    { message: "Good luck with your project!" }.to_json
+  get '/games' do
+    games = Game.all.order("name ASC")
+    games.to_json
+  end
+
+  get '/players' do
+    players = Player.all.order("name ASC")
+    players.to_json
+  end
+
+  get '/matches' do
+    matches = Match.all.order("match_date DESC")
+    matches.to_json
+  end
+
+  get '/player_matches' do
+    player_matches = PlayerMatch.all
+    player_matches.to_json
+  end
+
+  post '/games' do
+    game = Game.create(
+      name: params[:name],
+      high_score_to_win: params[:high_score_to_win]
+    )
+    game.to_json
+  end
+
+  post '/matches' do
+    match = Match.create(
+      match_date: params[:match_date],
+      game_id: params[:game_id]
+    )
+    params[:players].map do |player|
+      PlayerMatch.create(
+        match_id: match.id,
+        player_id: player.id,
+        points: player.points
+      )
+    end
+    match.to_json
+  end
+
+  post '/players' do
+    player = Player.create(
+      name: params[:name],
+    )
+    player.to_json
+  end
+
+  patch '/games/:id' do
+    game = Game.find(params[:id])
+    game.update(
+      name: params[:name]
+      high_score_to_win: params[:high_score_to_win]
+    )
+    game.to_json
+  end
+
+  patch '/players/:id' do
+    player = Player.find(params[:id])
+    player.update(
+      name: params[:name]
+    )
+    player.to_json
+  end
+
+  patch '/matches/:id' do
+    match = Match.find(params[:id])
+    match.update(
+      date: params[:date]
+      game_id: params[:game_id]
+    )
+    #if players are updated, update player_matches, too??
+    match.to_json
+  end
+
+  delete '/games/:id' do
+    game = Game.find(params[:id])
+    matches = Match.all(game_id: params[:id])
+    player_matches = matches.map {|match| PlayerMatch.all(match_id: match.id)}
+    game.destroy
+    matches.map {|match| match.destroy}
+    player_matches.map {|player_match| player_match.destroy}
+    game.to_json
+  end
+
+  delete '/matches/:id' do
+    match = Match.find(params[:id])
+    player_matches = PlayerMatch.all(match_id: params[:id])
+    match.destroy
+    player_matches.map {|player_match| player_match.destroy}
+    match.to_json
+  end
+
+  delete '/players/:id' do
+    player = Player.find(params[:id])
+    player_matches = PlayerMatch.all(player_id: params[:id])
+    player.destroy
+    player_matches.map {|player_match| player_match.destroy}
+    player.to_json
   end
 
 end
