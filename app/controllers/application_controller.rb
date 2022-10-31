@@ -74,7 +74,12 @@ class ApplicationController < Sinatra::Base
       date: params[:date]
       game_id: params[:game_id]
     )
-    #if players are updated, update player_matches, too??
+    params[:players].map do |player|
+      player_match = PlayerMatch.find_by(match_id: params[:id], player_id: player.id)
+      player_match.update(
+        points: player.points
+      )
+    end
     match.to_json
   end
 
