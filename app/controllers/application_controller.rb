@@ -13,7 +13,7 @@ class ApplicationController < Sinatra::Base
 
   get '/matches' do
     matches = Match.order("match_date DESC")
-    matches.to_json
+    matches.to_json({:methods => :append})
   end
 
   post '/games' do

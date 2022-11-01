@@ -27,4 +27,8 @@ class Match < ActiveRecord::Base
         end
     end
 
+    def append
+        {"game" => self.game.name, "winner" => self.winner, "players" => self.players.map {|player| player.name}}
+    end
+
 end
