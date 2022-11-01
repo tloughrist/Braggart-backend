@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_11_01_165553) do
+ActiveRecord::Schema.define(version: 2022_11_01_203100) do
 
   create_table "games", force: :cascade do |t|
     t.string "name"
@@ -33,6 +33,13 @@ ActiveRecord::Schema.define(version: 2022_11_01_165553) do
   end
 
   create_table "stat_blocks", force: :cascade do |t|
+    t.string "player_name"
+    t.integer "num_matches"
+    t.integer "wins"
+    t.float "win_rate"
+    t.float "avg_deviation"
+    t.integer "player_id"
+    t.integer "game_id"
   end
 
 end

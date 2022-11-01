@@ -17,6 +17,7 @@ class ApplicationController < Sinatra::Base
   end
 
   get '/stats' do
+    StatBlock.populate
     StatBlock.all.to_json
   end
 

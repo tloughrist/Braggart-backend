@@ -2,6 +2,7 @@ class Game < ActiveRecord::Base
     has_many :matches
     has_many :player_matches, through: :matches
     has_many :players, through: :player_matches
+    has_many :stat_blocks
 
     def last_match
         self.matches.order("match_date DESC").first.match_date
