@@ -5,9 +5,12 @@ class Player < ActiveRecord::Base
 
     def fav_game
         game_ids = self.player_matches.map {|player_match| player_match.match.game_id}
-        fav_id = game_ids.max {|i| game_ids.count(i)}
-        fav_game = self.games.find(fav_id)
-        fav_game.name
+        no_dupes = game_ids.uniq
+        game_count = no_dupes.map do |id|
+            game_ids.count(id)
+        end
+        fav_ids = no_dupes.filter {|id| game_ids.count(id) == game_count.max}
+        fav_games = fav_ids.map {|id| self.games.find(id).name}
     end
 
     def last_game
@@ -25,11 +28,7 @@ class Player < ActiveRecord::Base
     end
 
     def append
-        append = []
-        append << self.fav_game
-        append << self.last_game
-        append << self.last_played
-        append << self.total_matches
-        append
+        {"fav_game" => self.fav_game, "last_game" => self.last_game, "last_played" => self.last_played, "total_matches" => self.total_matches
+        }
     end
 end
