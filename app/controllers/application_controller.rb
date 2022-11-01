@@ -16,6 +16,10 @@ class ApplicationController < Sinatra::Base
     matches.to_json({:methods => :append})
   end
 
+  get '/stats' do
+    StatBlock.all.to_json
+  end
+
   post '/games' do
     game = Game.create(
       name: params[:name],

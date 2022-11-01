@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_10_29_210833) do
+ActiveRecord::Schema.define(version: 2022_11_01_165553) do
 
   create_table "games", force: :cascade do |t|
     t.string "name"
@@ -30,6 +30,9 @@ ActiveRecord::Schema.define(version: 2022_10_29_210833) do
 
   create_table "players", force: :cascade do |t|
     t.string "name"
+  end
+
+  create_table "stat_blocks", force: :cascade do |t|
   end
 
 end

@@ -8,9 +8,9 @@ Player.create(name: "James Mitchell")
 Player.create(name: "Jess Mitchell")
 
 Game.create(name: "Train Dominos", high_score_to_win: false)
-Game.create(name: "Settlers of Catan" high_score_to_win: true)
-Game.create(name: "Carcassonne" high_score_to_win: true)
-Game.create(name: "Rummikub" high_score_to_win: false)
+Game.create(name: "Settlers of Catan", high_score_to_win: true)
+Game.create(name: "Carcassonne", high_score_to_win: true)
+Game.create(name: "Rummikub", high_score_to_win: false)
 
 Match.create(match_date: "2018-10-19", game_id:1)
 Match.create(match_date: "2018-11-14", game_id:1)
@@ -73,5 +73,7 @@ PlayerMatch.create(match_id: 12, player_id: 2, points: 154)
 PlayerMatch.create(match_id: 12, player_id: 3, points: 223)
 PlayerMatch.create(match_id: 12, player_id: 4, points: 176)
 PlayerMatch.create(match_id: 12, player_id: 5, points: 205)
+
+StatBlock.create()
 
 puts "✅ Done seeding!"
