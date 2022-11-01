@@ -44,6 +44,7 @@ class StatBlock < ActiveRecord::Base
     end
 
     def self.populate
+        StatBlock.destroy_all
         Player.all.each do |player|
             Game.all.each do |game|
                 StatBlock.statify(player, game)

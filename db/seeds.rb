@@ -74,6 +74,4 @@ PlayerMatch.create(match_id: 12, player_id: 3, points: 223)
 PlayerMatch.create(match_id: 12, player_id: 4, points: 176)
 PlayerMatch.create(match_id: 12, player_id: 5, points: 205)
 
-StatBlock.create()
-
 puts "✅ Done seeding!"

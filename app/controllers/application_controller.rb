@@ -18,7 +18,7 @@ class ApplicationController < Sinatra::Base
 
   get '/stats' do
     StatBlock.populate
-    StatBlock.all.to_json
+    StatBlock.all.to_json({:include => :game})
   end
 
   post '/games' do
