@@ -3,7 +3,7 @@ class ApplicationController < Sinatra::Base
   
   get '/games' do
     games = Game.order(:name)
-    games.to_json
+    games.to_json({:methods => :append})
   end
 
   get '/players' do
