@@ -2,23 +2,18 @@ class ApplicationController < Sinatra::Base
   set :default_content_type, 'application/json'
   
   get '/games' do
-    games = Game.all.order("name ASC")
+    games = Game.order(:name)
     games.to_json
   end
 
   get '/players' do
-    players = Player.all.order("name ASC")
-    players.to_json
+    players = Player.order(:name)
+    players.to_json({:methods => :append})
   end
 
   get '/matches' do
-    matches = Match.all.order("match_date DESC")
+    matches = Match.order("match_date DESC")
     matches.to_json
-  end
-
-  get '/player_matches' do
-    player_matches = PlayerMatch.all
-    player_matches.to_json
   end
 
   post '/games' do
@@ -54,7 +49,7 @@ class ApplicationController < Sinatra::Base
   patch '/games/:id' do
     game = Game.find(params[:id])
     game.update(
-      name: params[:name]
+      name: params[:name],
       high_score_to_win: params[:high_score_to_win]
     )
     game.to_json
@@ -71,7 +66,7 @@ class ApplicationController < Sinatra::Base
   patch '/matches/:id' do
     match = Match.find(params[:id])
     match.update(
-      date: params[:date]
+      date: params[:date],
       game_id: params[:game_id]
     )
     params[:players].map do |player|
