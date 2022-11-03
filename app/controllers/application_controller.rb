@@ -16,9 +16,11 @@ class ApplicationController < Sinatra::Base
     matches.to_json({:methods => :append})
   end
 
-  get '/stats' do
+  get '/stat_blocks' do
+    StatBlock.destroy_all
     StatBlock.populate
-    StatBlock.all.to_json({:include => :game})
+    stat_blocks = StatBlock.all
+    stat_blocks.to_json({:include => :game})
   end
 
   post '/games' do

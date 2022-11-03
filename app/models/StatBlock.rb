@@ -31,12 +31,12 @@ class StatBlock < ActiveRecord::Base
             end
         end
         
-        avg_deviation = points_off.sum / points_off.size
+        avg_deviation = (points_off.sum.to_f / points_off.size.to_f).round(2)
         StatBlock.create(
             player_name: player.name,
             num_matches: num_matches,
             wins: wins,
-            win_rate: wins == 0 ? 0 : num_matches / wins,
+            win_rate: wins == 0 ? 0 : (wins.to_f / num_matches.to_f).round(2),
             avg_deviation: avg_deviation,
             player_id: player.id,
             game_id: game.id
@@ -44,7 +44,6 @@ class StatBlock < ActiveRecord::Base
     end
 
     def self.populate
-        StatBlock.destroy_all
         Player.all.each do |player|
             Game.all.each do |game|
                 StatBlock.statify(player, game)
