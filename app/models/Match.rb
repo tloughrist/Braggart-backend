@@ -31,4 +31,10 @@ class Match < ActiveRecord::Base
         {"game" => self.game.name, "winner" => self.winner, "players" => self.players.map {|player| player.name}}
     end
 
+    def delete_player_matches
+        player_matches = PlayerMatch.all
+        player_matches_filt = player_matches.filter {|player_match| player_match.match_id == self.id}
+        player_matches_filt.map {|player_match| player_match.destroy}
+    end
+
 end

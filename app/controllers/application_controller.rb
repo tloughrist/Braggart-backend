@@ -16,6 +16,11 @@ class ApplicationController < Sinatra::Base
     matches.to_json({:methods => :append})
   end
 
+  get '/player_matches' do
+    pmatches = PlayerMatch.order("match_id ASC")
+    pmatches.to_json
+  end
+
   get '/stat_blocks' do
     StatBlock.destroy_all
     StatBlock.populate
@@ -36,14 +41,16 @@ class ApplicationController < Sinatra::Base
       match_date: params[:match_date],
       game_id: params[:game_id]
     )
-    params[:players].map do |player|
-      PlayerMatch.create(
-        match_id: match.id,
-        player_id: player.id,
-        points: player.points
-      )
-    end
     match.to_json
+  end
+  
+  post '/player_matches' do
+    player_match = PlayerMatch.create(
+      match_id: params[:match_id],
+      player_id: params[:player_id],
+      points: params[:points]
+    )
+    player_match.to_json
   end
 
   post '/players' do
@@ -97,10 +104,15 @@ class ApplicationController < Sinatra::Base
 
   delete '/matches/:id' do
     match = Match.find(params[:id])
-    player_matches = PlayerMatch.all(match_id: params[:id])
+    match.delete_player_matches
     match.destroy
-    player_matches.map {|player_match| player_match.destroy}
     match.to_json
+  end
+
+  delete '/player_matches/:id' do
+    player_match = PlayerMatch.find(params[:id])
+    player_match.destroy
+    player_match.to_json
   end
 
   delete '/players/:id' do
