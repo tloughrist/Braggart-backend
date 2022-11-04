@@ -16,12 +16,16 @@ class Player < ActiveRecord::Base
 
     def last_game
         matches_ordered = self.matches.order("match_date DESC")
-        matches_ordered.first.game.name
+        if matches_ordered.size > 0
+            matches_ordered.first.game.name
+        end
     end
 
     def last_played
         matches_ordered = self.matches.order("match_date DESC")
-        matches_ordered.first.match_date
+        if matches_ordered.size > 0
+            matches_ordered.first.match_date
+        end
     end
 
     def total_matches
