@@ -13,21 +13,19 @@ class StatBlock < ActiveRecord::Base
         wins = winners.count(player.name)
         played_matches = player.matches.filter {|match| match.game_id == game.id}
         
-        points_off = player.matches.map do |match|
+        points_off = played_matches.map do |match|
             if game.high_score_to_win
                 #find high score player match
-                high_score = match.player_matches.map {|player_match| player_match.points}.max
-                puts high_score
+                high_score = match.player_matches.all.maximum('points')
                 #subtract this player match score from high score
                 player_score = match.player_matches.find_by(player_id: player.id).points
-                high_score - player_score
+                difference = high_score - player_score
             else
                 #find low score player match
-                lo_score = match.player_matches.map {|player_match| player_match.points}.min
-                puts lo_score
+                lo_score = match.player_matches.all.minimum('points')
                 #subtract low score from this player match score
                 player_score = match.player_matches.find_by(player_id: player.id).points
-                player_score - lo_score
+                difference = player_score - lo_score
             end
         end
         
