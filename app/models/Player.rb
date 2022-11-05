@@ -36,4 +36,10 @@ class Player < ActiveRecord::Base
         {"fav_game" => self.fav_game, "last_game" => self.last_game, "last_played" => self.last_played, "total_matches" => self.total_matches
         }
     end
+
+    def delete_player_matches
+        player_matches = PlayerMatch.all
+        player_matches_filt = player_matches.filter {|player_match| player_match.player_id == self.id}
+        player_matches_filt.map {|player_match| player_match.destroy}
+    end
 end

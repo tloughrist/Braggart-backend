@@ -24,4 +24,13 @@ class Game < ActiveRecord::Base
     def append
         {"last_match" => self.last_match, "no_of_matches" => self.no_of_matches, "most_wins" => self.most_winning}
     end
+
+    def delete_matches
+        matches = Match.all
+        matches_filt = matches.filter {|match| match.game_id == self.id}
+        matches_filt.map do |match|
+            match.delete_player_matches
+            match.destroy
+        end
+    end
 end

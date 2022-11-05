@@ -17,18 +17,30 @@ class Match < ActiveRecord::Base
         end
     end
 
-    def ranking
+    def rank
         if self.game.high_score_to_win
             player_matches = self.player_matches.order("points DESC")
-            ranking = player_matches.map {|player_match| self.players.find(player_match.player_id).name}
+            ranking = {}
+            if player_matches.size > 0
+                player_matches.map do |player_match|
+                    ranking[player_match.player.name] = player_match.points
+                end
+            end
+            ranking
         else
             player_matches = self.player_matches.order("points ASC")
-            ranking = player_matches.map {|player_match| self.players.find(player_match.player_id).name}
+            ranking = {}
+            if player_matches.size > 0
+                player_matches.map do |player_match|
+                    ranking[player_match.player.name] = player_match.points
+                end
+            end
+            ranking
         end
     end
 
     def append
-        {"game" => self.game.name, "winner" => self.winner, "players" => self.players.map {|player| player.name}}
+        {"game" => self.game.name, "winner" => self.winner, "players" => self.rank}
     end
 
     def delete_player_matches

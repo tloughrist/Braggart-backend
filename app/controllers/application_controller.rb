@@ -94,11 +94,8 @@ class ApplicationController < Sinatra::Base
 
   delete '/games/:id' do
     game = Game.find(params[:id])
-    matches = Match.all(game_id: params[:id])
-    player_matches = matches.map {|match| PlayerMatch.all(match_id: match.id)}
+    game.delete_matches
     game.destroy
-    matches.map {|match| match.destroy}
-    player_matches.map {|player_match| player_match.destroy}
     game.to_json
   end
 
@@ -117,9 +114,8 @@ class ApplicationController < Sinatra::Base
 
   delete '/players/:id' do
     player = Player.find(params[:id])
-    player_matches = PlayerMatch.all(player_id: params[:id])
+    player.delete_player_matches
     player.destroy
-    player_matches.map {|player_match| player_match.destroy}
     player.to_json
   end
 
