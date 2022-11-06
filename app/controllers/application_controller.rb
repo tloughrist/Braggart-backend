@@ -80,15 +80,10 @@ class ApplicationController < Sinatra::Base
   patch '/matches/:id' do
     match = Match.find(params[:id])
     match.update(
-      date: params[:date],
+      match_date: params[:match_date],
       game_id: params[:game_id]
     )
-    params[:players].map do |player|
-      player_match = PlayerMatch.find_by(match_id: params[:id], player_id: player.id)
-      player_match.update(
-        points: player.points
-      )
-    end
+    match.delete_player_matches
     match.to_json
   end
 
