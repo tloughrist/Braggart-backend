@@ -38,8 +38,6 @@ class Player < ActiveRecord::Base
     end
 
     def delete_player_matches
-        player_matches = PlayerMatch.all
-        player_matches_filt = player_matches.filter {|player_match| player_match.player_id == self.id}
-        player_matches_filt.map {|player_match| player_match.destroy}
+        self.player_matches.destroy_all
     end
 end
