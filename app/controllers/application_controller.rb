@@ -6,7 +6,8 @@ class ApplicationController < Sinatra::Base
       name: params[:name],
       high_score_to_win: params[:high_score_to_win]
     )
-    game.to_json
+    games = Game.order(:name)
+    games.to_json({:methods => :append})
   end
 
   post '/matches' do
@@ -14,7 +15,8 @@ class ApplicationController < Sinatra::Base
       match_date: params[:match_date],
       game_id: params[:game_id]
     )
-    match.to_json
+    matches = Match.order("match_date DESC")
+    matches.to_json({:methods => :append})
   end
   
   post '/player_matches' do
@@ -23,14 +25,16 @@ class ApplicationController < Sinatra::Base
       player_id: params[:player_id],
       points: params[:points]
     )
-    player_match.to_json
+    player_matches = PlayerMatch.order("match_id ASC")
+    player_matches.to_json
   end
 
   post '/players' do
     player = Player.create(
       name: params[:name],
     )
-    player.to_json
+    players = Player.order(:name)
+    players.to_json({:methods => :append})
   end
 
   get '/games' do
@@ -49,8 +53,8 @@ class ApplicationController < Sinatra::Base
   end
 
   get '/player_matches' do
-    pmatches = PlayerMatch.order("match_id ASC")
-    pmatches.to_json
+    player_matches = PlayerMatch.order("match_id ASC")
+    player_matches.to_json
   end
 
   get '/stat_blocks' do
@@ -66,7 +70,8 @@ class ApplicationController < Sinatra::Base
       name: params[:name],
       high_score_to_win: params[:high_score_to_win]
     )
-    game.to_json
+    games = Game.order(:name)
+    games.to_json({:methods => :append})
   end
 
   patch '/players/:id' do
@@ -74,7 +79,8 @@ class ApplicationController < Sinatra::Base
     player.update(
       name: params[:name]
     )
-    player.to_json
+    players = Player.order(:name)
+    players.to_json({:methods => :append})
   end
 
   patch '/matches/:id' do
@@ -83,35 +89,46 @@ class ApplicationController < Sinatra::Base
       match_date: params[:match_date],
       game_id: params[:game_id]
     )
+    matches = Match.order("match_date DESC")
+    matches.to_json({:methods => :append})
+  end
+
+  patch '/matches/all_player_matches/:id' do
+    match = Match.find(params[:id])
     match.delete_player_matches
-    match.to_json
+    matches = Match.order("match_date DESC")
+    matches.to_json({:methods => :append})
   end
 
   delete '/games/:id' do
     game = Game.find(params[:id])
     game.delete_matches
     game.destroy
-    game.to_json
+    games = Game.order(:name)
+    games.to_json({:methods => :append})
   end
 
   delete '/matches/:id' do
     match = Match.find(params[:id])
     match.delete_player_matches
     match.destroy
-    match.to_json
+    matches = Match.order("match_date DESC")
+    matches.to_json({:methods => :append})
   end
 
   delete '/player_matches/:id' do
     player_match = PlayerMatch.find(params[:id])
     player_match.destroy
-    player_match.to_json
+    player_matches = PlayerMatch.order("match_id ASC")
+    player_matches.to_json
   end
 
   delete '/players/:id' do
     player = Player.find(params[:id])
     player.delete_player_matches
     player.destroy
-    player.to_json
+    players = Player.order(:name)
+    players.to_json({:methods => :append})
   end
 
 end
