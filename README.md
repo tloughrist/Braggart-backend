@@ -5,7 +5,7 @@ An application to keep track of player statistics for your board-gaming group.
 If you play a lot of board games, you may have a decent sense about who is better at what games and by how much. But if there is disagreement, there isn't much you can do to settle the difference unless you've kept records of your matches. Braggart is inteded as a simple application for keeping track of which games your groups plays, including information about which games players play the most often, what player's win-rates are at the games the play, and what their average deviation from the winning score is.
 
 ## Demo
-[![A link to a demo video](https://timloughrist.files.wordpress.com/2022/11/ksnip_20221112-054830.png)](https://youtu.be/J-0qIAHsd7g)
+[![A link to a demo video](https://timloughrist.files.wordpress.com/2022/11/ksnip_20221112-054830.png)](https://youtu.be/TuNLKUgQ9EQ)
 
 Click the image above to watch a video demonstrating the app.
 
