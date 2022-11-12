@@ -48,4 +48,5 @@ class StatBlock < ActiveRecord::Base
             end
         end
     end
+
 end

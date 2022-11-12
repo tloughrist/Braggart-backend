@@ -1,33 +1,6 @@
 class ApplicationController < Sinatra::Base
   set :default_content_type, 'application/json'
   
-  get '/games' do
-    games = Game.order(:name)
-    games.to_json({:methods => :append})
-  end
-
-  get '/players' do
-    players = Player.order(:name)
-    players.to_json({:methods => :append})
-  end
-
-  get '/matches' do
-    matches = Match.order("match_date DESC")
-    matches.to_json({:methods => :append})
-  end
-
-  get '/player_matches' do
-    pmatches = PlayerMatch.order("match_id ASC")
-    pmatches.to_json
-  end
-
-  get '/stat_blocks' do
-    StatBlock.destroy_all
-    StatBlock.populate
-    stat_blocks = StatBlock.all
-    stat_blocks.to_json({:include => :game})
-  end
-
   post '/games' do
     game = Game.create(
       name: params[:name],
@@ -58,6 +31,33 @@ class ApplicationController < Sinatra::Base
       name: params[:name],
     )
     player.to_json
+  end
+
+  get '/games' do
+    games = Game.order(:name)
+    games.to_json({:methods => :append})
+  end
+
+  get '/players' do
+    players = Player.order(:name)
+    players.to_json({:methods => :append})
+  end
+
+  get '/matches' do
+    matches = Match.order("match_date DESC")
+    matches.to_json({:methods => :append})
+  end
+
+  get '/player_matches' do
+    pmatches = PlayerMatch.order("match_id ASC")
+    pmatches.to_json
+  end
+
+  get '/stat_blocks' do
+    StatBlock.destroy_all
+    StatBlock.populate
+    stat_blocks = StatBlock.all
+    stat_blocks.to_json({:include => :game})
   end
 
   patch '/games/:id' do
